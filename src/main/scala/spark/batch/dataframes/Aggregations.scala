@@ -1,4 +1,4 @@
-package org.dadaia.spark.dataframes
+package spark.batch.dataframes
 
 import config.Settings
 import org.apache.spark.sql.{SparkSession, functions}

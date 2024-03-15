@@ -1,7 +1,7 @@
-package org.dadaia.spark.dataframes
+package spark.batch.dataframes
 
 import org.apache.spark.sql.SparkSession
-import org.dadaia.spark.my_utils.Utils.getSparkSession
+import spark.batch.my_utils.Utils.getSparkSession
 
 
 object DataFramesFromScratch {

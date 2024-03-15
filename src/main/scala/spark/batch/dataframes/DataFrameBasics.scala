@@ -1,10 +1,10 @@
-package org.dadaia.spark.dataframes
+package spark.batch.dataframes
 
 import config.Settings.fileCarsJSON
 import org.apache.spark.sql.types.{DoubleType, LongType, StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
-import org.dadaia.spark.commons.MySchemas.carsSchema
-import org.dadaia.spark.my_utils.Utils.getSparkSession
+import spark.batch.commons.MySchemas.carsSchema
+import spark.batch.my_utils.Utils.getSparkSession
 
 object DataFrameBasics {
 

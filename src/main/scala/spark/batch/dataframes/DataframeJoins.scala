@@ -1,9 +1,9 @@
-package org.dadaia.spark.dataframes
+package spark.batch.dataframes
 
 import config.Settings.{fileBandsJSON, fileGuitarPlayersJSON, fileGuitarsJSON}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.expr
-import org.dadaia.spark.my_utils.Utils.getSparkSession
+import spark.batch.my_utils.Utils.getSparkSession
 
 object DataframeJoins {
 

@@ -1,9 +1,9 @@
-package org.dadaia.spark.dataframes
+package spark.batch.dataframes
 
 import config.Settings.{fileCarsJSON, fileMoreCarsJSON}
 import org.apache.spark.sql.{Column, SparkSession}
 import org.apache.spark.sql.functions.{col, column, expr}
-import org.dadaia.spark.my_utils.Utils.getSparkSession
+import spark.batch.my_utils.Utils.getSparkSession
 
 object ColumnsAndExpressions {
 

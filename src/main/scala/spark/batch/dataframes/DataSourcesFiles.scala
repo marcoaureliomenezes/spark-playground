@@ -1,10 +1,10 @@
-package org.dadaia.spark.dataframes
+package spark.batch.dataframes
 
 import config.Settings.{fileCarsAvro, fileCarsJSON, fileCarsParquet, fileStocksCSV, postgresDriver, postgresPassword, postgresURL, postgresUser}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{SaveMode, SparkSession}
-import org.dadaia.spark.commons.MySchemas.{carsSchema, stocksSchema}
-import org.dadaia.spark.my_utils.Utils.getSparkSession
+import spark.batch.commons.MySchemas.{carsSchema, stocksSchema}
+import spark.batch.my_utils.Utils.getSparkSession
 
 object DataSourcesFiles {
 
