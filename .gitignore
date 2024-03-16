@@ -192,10 +192,16 @@ spark-warehouse/
 # For SBT
 .jvmopts
 
+project/
+
+.bsp/
 
 .env
 
+.hypothesis
 
+
+src/main/resources/application.properties
 
 
 # End of https://www.gitignore.io/api/sbt,scala,spark,intellij

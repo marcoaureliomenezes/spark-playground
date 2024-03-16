@@ -1,45 +1,56 @@
-package org.dadaia.spark.streaming.streaming1Basics
+package spark.streaming.basics
 
-import org.apache.spark.sql.{Column, SparkSession}
-import org.apache.spark.sql.functions.{col, count, sum}
+import config.Settings.{socketHost, socketInPort1}
+import org.apache.spark.sql.{Column, DataFrame, SparkSession}
+import org.apache.spark.sql.functions.{avg, col, count, from_json, sum, to_json}
+import org.apache.spark.sql.streaming.StreamingQuery
+import org.apache.spark.sql.types.{DoubleType, IntegerType, StringType, StructField, StructType}
+import spark.my_utils.Utils.getSparkSession
 
-object StreamingAggregations {
+object Aggregations {
 
-  val spark = SparkSession.builder()
-    .appName("DF Columns and Expressions")
-    .config("spark.master", "local[2]")
-    .getOrCreate()
-  spark.sparkContext.setLogLevel("ERROR")
+  val spark: SparkSession = getSparkSession("Spark Streaming: Aggregations")
 
   def streamingCount() = {
-    val lines = spark.readStream
+    val linesDF: DataFrame = spark.readStream
       .format("socket")
-      .option("host", "localhost")
-      .option("port", 12345)
+      .option("host", socketHost)
+      .option("port", socketInPort1)
       .load()
 
-    val lineCount = lines.selectExpr("count(*) as lineCount")
-    // aggregations with distinct are not supported
-    // Otherwise spark will need to keep track of all the unique values of the column
-    val query = lineCount.writeStream
+    val linesCountDF: DataFrame = linesDF.selectExpr("count(*) as lineCount")
+
+    val query: StreamingQuery = linesCountDF.writeStream
       .format("console")
-      .outputMode("complete") // append and update not supported on aggregations without watermark
+      .outputMode("complete")
       .start()
 
     query.awaitTermination()
   }
 
   def numericalAggregations(aggFunction: Column => Column): Unit = {
+    val clientSchema = StructType(Array(
+      StructField("id", StringType),
+      StructField("name", StringType),
+      StructField("age", IntegerType),
+      StructField("saldo", DoubleType)
+    ))
 
-    val lines = spark.readStream
+    val linesDF: DataFrame = spark.readStream
       .format("socket")
-      .option("host", "localhost")
-      .option("port", 12345)
+      .option("host", socketHost)
+      .option("port", socketInPort1)
       .load()
 
-    val numbers = lines.select(col("value").cast("integer").as("number"))
-    val aggregationDF = numbers.select(aggFunction(col("number")).as("agg_so_far"))
-
+    val parsedDF: DataFrame = linesDF
+      .withColumn("value", from_json(col("value"), clientSchema))
+      .select(
+        col("value.id").as("id"),
+        col("value.name").as("nome"),
+        col("value.age").as("idade"),
+        col("value.saldo").as("saldo")
+      )
+    val aggregationDF = parsedDF.select(aggFunction(col("saldo")).as("agg_so_far"))
     aggregationDF.writeStream
       .format("console")
       .outputMode("complete")
@@ -48,13 +59,13 @@ object StreamingAggregations {
   }
 
   def groupNames(): Unit = {
-    val lines = spark.readStream
+    val linesDF: DataFrame = spark.readStream
       .format("socket")
-      .option("host", "localhost")
-      .option("port", 12345)
+      .option("host", socketHost)
+      .option("port", socketInPort1)
       .load()
 
-    val names = lines.select(col("value").as("name"))
+    val names = linesDF.select(col("value").as("name"))
     val nameGroups = names.groupBy(col("name")).agg(count("*").as("groupCount"))
 
     nameGroups.writeStream
@@ -67,8 +78,8 @@ object StreamingAggregations {
   def main(args: Array[String]): Unit = {
 
     // streamingCount()
-    // numericalAggregations(count)
-    groupNames()
+    numericalAggregations(avg)
+    // groupNames()
   }
 
 }
