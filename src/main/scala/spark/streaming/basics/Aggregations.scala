@@ -1,6 +1,5 @@
 package org.dadaia.spark.streaming.streaming1Basics
 
-import common.stocksSchema
 import org.apache.spark.sql.{Column, SparkSession}
 import org.apache.spark.sql.functions.{col, count, sum}
 
