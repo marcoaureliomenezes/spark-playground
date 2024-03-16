@@ -1,7 +1,6 @@
-package spark.batch.my_utils
+package spark.my_utils
 
-import config.Settings.{basePath, postgresDriver, postgresPassword, postgresURL, postgresUser}
-import exercises.DataFrameJoins.spark
+import config.Settings.{basePath, postgresDriver, postgresPassword, postgresUrl, postgresUser}
 import exercises.SparkSQL.spark
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -31,7 +30,7 @@ object Utils {
     spark.read
       .format("jdbc")
       .option("driver", postgresDriver)
-      .option("url", postgresURL)
+      .option("url", postgresUrl)
       .option("user", postgresUser)
       .option("password", postgresPassword)
       .option("dbtable", s"public.$tableName")

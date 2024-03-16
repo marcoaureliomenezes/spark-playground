@@ -1,12 +1,13 @@
 package org.dadaia.spark.streaming.streaming3Integrations
 
-import Utils.Utils.getSparkSession
 import com.datastax.spark.connector.cql.CassandraConnector
-import common.{Car, carsSchema}
 import config.Settings.{cassandraKeyspace, cassandraTableCars, inputCarsJSON}
 import org.apache.spark.sql.cassandra.DataFrameWriterWrapper
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.{Dataset, SaveMode, SparkSession}
+import playground.Playground.carsSchema
+import spark.batch.Datasets.Car
+import spark.my_utils.Utils.getSparkSession
 
 object KafkaToCassandra {
 

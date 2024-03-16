@@ -1,10 +1,10 @@
 package org.dadaia.spark.streaming.streaming4Advanced
 
-import Utils.Utils.getSparkSession
 import config.Settings.{socketHost, socketInPort1}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.functions.window
 import org.apache.spark.sql.streaming.{StreamingQuery, Trigger}
+import spark.my_utils.Utils.getSparkSession
 
 import java.net.ServerSocket
 import java.sql.Timestamp
@@ -13,7 +13,7 @@ import scala.concurrent.duration.DurationInt
 object Watermarks {
 
 
-  val spark: SparkSession = getSparkSession("local")
+  val spark: SparkSession = getSparkSession("Streaming Advanced - Watermarks")
   import spark.implicits._
 
 

@@ -1,9 +1,9 @@
 package org.dadaia.spark.streaming.streaming3Integrations
 
-import Utils.Utils.getSparkSession
 import common.{Car, carsSchema}
 import config.Settings.{inputCarsJSON, postgresDriver, postgresPassword, postgresUrl, postgresUser}
 import org.apache.spark.sql.{Dataset, SparkSession}
+import spark.my_utils.Utils.getSparkSession
 
 object KafkaToJDBC {
 

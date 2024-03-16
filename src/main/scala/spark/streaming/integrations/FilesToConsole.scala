@@ -1,9 +1,12 @@
 package org.dadaia.spark.streaming.streaming3Integrations
 
-import Utils.Utils.getSparkSession
-import common.stocksSchema
 import config.Settings.inputStocksCSV
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.streaming.Trigger
+import spark.batch.commons.MySchemas.stocksSchema
+import spark.my_utils.Utils.getSparkSession
+
+import scala.concurrent.duration.DurationInt
 
 object FilesToConsole {
 
@@ -20,6 +23,7 @@ object FilesToConsole {
     stocksDF.writeStream
       .format("console")
       .outputMode("append")
+      .trigger(Trigger.ProcessingTime(2.seconds)) // A cada 2 segundos cria um batch com o que tiver
       .start()
       .awaitTermination()
   }

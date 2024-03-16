@@ -1,11 +1,10 @@
 package org.dadaia.spark.streaming.streaming3Integrations
 
-import Utils.Utils.getSparkSession
 import com.datastax.spark.connector.cql.CassandraConnector
-import common.{Car, carsSchema}
 import config.Settings.{cassandraKeyspace, cassandraTableCars, inputCarsJSON}
 import org.apache.spark.sql.SparkSession
-import org.dadaia.spark.streaming.streaming3Integrations.KafkaToCassandra.spark
+import _root_.spark.my_utils.Utils.getSparkSession
+import spark.batch.Datasets.Car
 
 object KafkaToCassandra2 {
 
@@ -36,7 +35,7 @@ object KafkaToCassandra2 {
   def writeToCassandra() = {
 
     val carsDS = spark.readStream
-      .schema(carsSchema)
+      //.schema()
       .json(inputCarsJSON)
       .as[Car]
 

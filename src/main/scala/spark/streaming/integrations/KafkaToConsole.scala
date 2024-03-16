@@ -1,12 +1,11 @@
 package org.dadaia.spark.streaming.streaming3Integrations
 
-import Utils.Utils.getSparkSession
-import common.clientSchema
 import config.Settings.kafkaCluster
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{col, expr, from_json, to_json}
 import org.apache.spark.sql.types.{StringType, StructType}
-import org.dadaia.spark.streaming.streaming3Integrations.KafkaToParquet.spark
+import _root_.spark.my_utils.Utils.getSparkSession
+import common.clientSchema
 
 object KafkaToConsole {
 
