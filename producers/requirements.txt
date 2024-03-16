@@ -1,0 +1,9 @@
+kafka-python==2.0.2
+flask
+python-dotenv==0.20.0
+fastapi[all]
+uvicorn
+avro
+faker
+confluent-kafka==1.9.0
+fastavro==1.4.11
