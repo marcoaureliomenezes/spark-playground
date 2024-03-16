@@ -1,34 +1,24 @@
 version: '3'
 
-x-resources-control-center: &resources-control-center
-  resources:
-    limits:
-      cpus: '0.5'
-      memory: 2G
-    reservations:
-      cpus: '0.2'
-      memory: 512M
-
-
-x-resources-zookeeper: &resources-zookeeper
-  resources:
-    limits:
-      cpus: '0.5'
-      memory: 512M
-    reservations:
-      cpus: '0.2'
-      memory: 256M
-
-x-resources-kafka: &resources-kafka
-  resources:
-    limits:
-      cpus: '1'
-      memory: 1G
-    reservations:
-      cpus: '0.5'
-      memory: 512M
 
 services:
+
+  socket_producer:
+    image: socket_producer
+    container_name: socket_producer
+    restart: always
+    environment:
+        - PORT=12345
+    build:
+      context: ./producers
+      dockerfile: Dockerfile
+    networks:
+      - spark_learning
+    volumes:
+      - "./producers/src:/app"
+    ports:
+      - "12345:12345"
+    entrypoint: "python -u socket_producer.py"
 
   postgres:
     image: postgres:${POSTGRES_VERSION}
@@ -95,12 +85,19 @@ services:
       - spark_learning
     depends_on:
       - zookeeper
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: '1G'
+        reservations:
+          cpus: '0.5'
+          memory: '512M'
     healthcheck:
       test: [ "CMD", "nc", "-z", "kafka", "9092" ]
       timeout: 45s
       interval: 10s
       retries: 10
-
 
   control-center:
     image: confluentinc/cp-enterprise-control-center:${CONTROL_CENTER_VERSION}
