@@ -1,10 +1,12 @@
-from data_generator import gen_data
+from data_generator import DataGenerator
 import socket, time, json, os
+from datetime import datetime as dt
 
 if __name__ == "__main__":
 
   server_ip = "socket_producer"
   port = int(os.getenv("PORT"))
+  data_generator = DataGenerator(batch_interval=1000, min_batch_size=2, max_batch_size=5, freq=1)
   sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
   try:
     sock.bind((server_ip, port))
@@ -18,9 +20,10 @@ if __name__ == "__main__":
   client_socket, client_address = sock.accept()
   print("Client connected")
 
-  while True:
+  date_start = dt.strptime("2020-02-23", "%Y-%m-%d")
+  data_generator.run(date_start)
+  for msg in data_generator.run(date_start):
     try:
-      msg = gen_data()
       print(msg)
       msg_to_send = json.dumps(msg) + "\n"
       msg_encoded = msg_to_send.encode('utf-8')
@@ -29,5 +32,4 @@ if __name__ == "__main__":
       print("Connection closed")
       client_socket.close()
       break
-    time.sleep(1)
 

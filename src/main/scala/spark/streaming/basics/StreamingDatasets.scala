@@ -1,12 +1,12 @@
 package org.dadaia.spark.streaming.streaming1Basics
 
-import Utils.Utils.getSparkSession
-import common.{Car, carsSchema}
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders, SparkSession}
 import org.apache.spark.sql.functions.{col, from_json}
+import playground.Playground.carsSchema
+import spark.batch.Datasets.Car
+import spark.my_utils.Utils.getSparkSession
 
 object StreamingDatasets {
-
 
 
   val spark: SparkSession = getSparkSession("local")
